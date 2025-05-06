@@ -1,24 +1,41 @@
 package serie2.part1_2
+/*
+  --- PASSARAM NOS TESTES TODOS
+ */
 
-class IntArrayList : Iterable <Int> {
+interface Iterable<Int>{
+    fun append(x: Int): Boolean
+    fun get(n: Int): Int?
+    fun addToAll(x: Int)
+    fun remove(): Boolean
+}
 
-    fun append(x:Int):Boolean {
-        TODO("Not yet implemented")
+class IntArrayList(private val k: Int): Iterable<Int>{
+    private var list = listOf<Int>()
+    private var addToAll = 0
+
+    override fun append(x:Int): Boolean{
+        return if (list.size == k) false
+        else {
+            list += x
+            return true
+        }
     }
 
-    fun get(n:Int):Int?  {
-        TODO("Not yet implemented")
+    override fun get(n: Int): Int?{
+        return if(n !in 0 until k) null
+        else list[n] + addToAll
     }
 
-    fun addToAll(x:Int)   {
-        TODO("Not yet implemented")
+    override fun addToAll(x: Int){
+        list = list.map { it + x }
     }
 
-    fun remove():Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override fun iterator(): Iterator<Int> { // Opcional
-        TODO("Not yet implemented")
+    override fun remove(): Boolean{
+        return if (list.size == 0) false
+        else {
+            list -= list.first()
+            true
+        }
     }
 }
