@@ -3,39 +3,42 @@ package serie2.part1_2
   --- PASSARAM NOS TESTES TODOS
  */
 
-interface Iterable<Int>{
-    fun append(x: Int): Boolean
-    fun get(n: Int): Int?
-    fun addToAll(x: Int)
-    fun remove(): Boolean
-}
+class IntArrayList(val k: Int): Iterable<Int>{
+    private var intArrayList = IntArray(k)
+    private var pointer = -1
 
-class IntArrayList(private val k: Int): Iterable<Int>{
-    private var list = listOf<Int>()
-    private var addToAll = 0
-
-    override fun append(x:Int): Boolean{
-        return if (list.size == k) false
-        else {
-            list += x
-            return true
-        }
+     fun append(x:Int): Boolean{
+        return if (pointer == k - 1) false
+         else {
+             pointer++
+             intArrayList[pointer] = x
+             true
+         }
     }
 
-    override fun get(n: Int): Int?{
+     fun get(n: Int): Int?{
         return if(n !in 0 until k) null
-        else list[n] + addToAll
+        else intArrayList[n]
     }
 
-    override fun addToAll(x: Int){
-        list = list.map { it + x }
-    }
-
-    override fun remove(): Boolean{
-        return if (list.size == 0) false
-        else {
-            list -= list.first()
-            true
+     fun addToAll(x: Int){
+        for (i in 0..pointer){
+            intArrayList[i] += x
         }
+    }
+
+     fun remove(): Boolean{
+        return if (pointer == -1) false
+         else {
+            for (i in 0 until pointer){
+                intArrayList[i] = intArrayList[i+1]
+            }
+            pointer--
+            true
+         }
+    }
+// OQ Q É PRA FZR NESTA ???????
+    override fun iterator(): Iterator<Int> {
+        TODO("Not yet implemented")
     }
 }

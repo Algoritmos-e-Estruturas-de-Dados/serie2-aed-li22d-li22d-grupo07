@@ -1,11 +1,11 @@
 package serie2.part1_2
 /*
- --- TESTES ERRADOS?????
+ --> PASSOU NOS TESTES TODOS
  */
 fun minimum(maxHeap: Array<Int>, heapSize: Int): Int {
-    var minimum = maxHeap[heapSize/2]
+   var minimum = maxHeap[heapSize/2]
 
-    for(i in maxHeap.size/2 until maxHeap.size){
+    for(i in heapSize/2 until heapSize) {
         if (maxHeap[i] < minimum) minimum = maxHeap[i]
     }
 
