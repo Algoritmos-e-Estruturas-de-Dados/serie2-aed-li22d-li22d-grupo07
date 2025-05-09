@@ -12,9 +12,8 @@ fun splitEvensAndOdds(list:Node<Int>){
     while (node != list){
         if(node != null){ // NULL SAFETY
             if (node.value % 2 == 0){
-                val nodeValue = node.value
-                remove(list, nodeValue, { a: Int, b: Int -> a - b })
-                add(list, nodeValue)
+                remove(list, node.value, { a: Int, b: Int -> a - b })
+                add(list, node.value)
             }
             node = node.next
         }
@@ -75,11 +74,13 @@ fun <T> intersection(list1: Node<T>, list2: Node<T>, cmp: Comparator<T>): Node<T
             }
         }
     }
+
     return listHead
 }
 
 
 // FUNÇÃO QUE ADICIONA ELEMENTOS AO FIM DA LISTA. (ADAPTADA DA FUNÇÃO "ADD" DAS LISTAS DUPLAMENTE LIGADAS FORNECIDA PELO DOCENTE)
+// RETORNA O ÚLTIMO NÓ DA LISTA (TORNANDO MAIS SIMPLES O CÁLCULO DEPOIS NA FUNÇÃO PRINCIPAL)
 private fun <E> addToEnd(head: Node<E>?, newItem: E): Node<E>? {
     var head = head
     var x = Node(newItem, null, null)

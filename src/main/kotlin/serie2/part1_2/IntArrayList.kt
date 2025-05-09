@@ -1,7 +1,4 @@
 package serie2.part1_2
-/*
-  --- PASSARAM NOS TESTES TODOS
- */
 
 class IntArrayList(val k: Int): Iterable<Int>{
     private var intArrayList = IntArray(k)
