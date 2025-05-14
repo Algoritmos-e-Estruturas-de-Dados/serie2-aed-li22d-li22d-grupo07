@@ -14,40 +14,95 @@ interface MutableMap<K,V>: Iterable<MutableMap.MutableEntry<K,V>> {
 
 data class HashNode<K, V>(var key:K, var value: V, var next: HashNode<K, V>? = null)
 
-class hashMap<K,V>(capacity: Int): MutableMap<K,V>{
+class hashMap<K,V>(capacity: Int = 16): MutableMap<K,V>{
 
-    override var size: Int = 0
+     // private var mutableSize = 0 // ????
+    override var size: Int = 0 // COMO ATUALIZAR O VALOR DO TAMANNHO???
 
-    override val capacity: Int = capacity
+    // private var mutableCapacity = capacity // ?????
+    override var capacity: Int = capacity // COMO ATUALIZAR O VALOR DA CAPACIDADE???
 
     private var hashTable = arrayOfNulls<HashNode<K, V>?>(capacity)
 
+    private fun hash(e: K): Int {
+        val idx = e.hashCode() % capacity
+        return if (idx < 0) idx + capacity else idx
+    }
+
     override operator fun get(key: K): V? {
-        val idx = key.hashCode() % capacity
-        var node = hashTable[idx]
+
+        var node = hashTable[hash(key)]
+
         while(node != null){
             if (node.key == key) return node.value
             else node = node.next
         }
-        return node
+        return null
     }
 
     override fun put(key: K, value: V): V? {
-        val idx = key.hashCode() % capacity
-        if (hashTable[idx] == null) {
+
+        val idx = hash(key)
+        val oldValue = get(key)
+        var node = hashTable[idx]
+
+    when {
+        node == null -> {
             hashTable[idx] = HashNode(key, value, null)
-            return null
+            size++
         }
 
-        var node = HashNode(key, value, hashTable[idx])
-        val previousValue = hashTable[idx]?.value
-        hashTable[idx] = node
+        oldValue == null -> {
+            hashTable[idx] = HashNode(key, value, hashTable[idx])
+            size++
+        }
 
-        size++
-        return previousValue
+        else -> { // ??????
+            while (node?.key != key) {
+                node = node?.next
+            }
+            node?.value = value
+            return oldValue
+        } }
+
+        if (size * size/capacity >= capacity) {
+            capacity *= 2
+            val newTable = arrayOfNulls<HashNode<K, V>>(capacity)
+
+            hashTable.forEach { // PODEMOS USAR ????? (CASO NÃO POSSAMOS, SUBSTITUIR POR UM LOOP FOR)
+                if(it != null) {
+                    newTable[hash(it.key)] = it
+                }
+            }
+
+            hashTable = newTable
+        }
+            return oldValue
     }
+
 
     override fun iterator(): MutableIterator<MutableMap.MutableEntry<K,V>> {
         TODO("HAVEN´T BEEN IMPLEMENTED YET")
     }
 }
+/*
+class HashMap<K, V> (initialCapacity: Int = 16, val loadFactor: Float = 0.75f) /: MutableMap<K, V>/ {
+    private class HashNode<K, V>(override val key: K, override var value: V,
+                                 var next: HashNode<K, V>? = null
+                                ): MutableMap.MutableEntry<K,V> {
+        var hc = key.hashCode()
+        override fun setValue(newValue: V): V {
+            val oldValue = value
+            value = newValue
+            return oldValue
+        }
+    }
+
+    private var table: Array<HashNode<K, V>?> = arrayOfNulls(initialCapacity)
+
+
+    private fun expand() {
+        TODO()
+    }
+}
+ */
