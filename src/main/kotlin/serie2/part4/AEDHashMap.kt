@@ -4,26 +4,24 @@ import java.util.NoSuchElementException
 
 class AEDHashMap<K,V>(capacity: Int = 16, private val loadFactor: Float = 0.75f): AEDMutableMap<K, V> {
 
-    private class HashNode<K, V>(key:K, value: V, next: AEDHashMap.HashNode<K, V>? = null): AEDMutableMap.MutableEntry<K, V> {
+    private class HashNode<K, V>(key:K, value: V, next: HashNode<K, V>? = null): AEDMutableMap.MutableEntry<K, V> { // Classe dos nós da tabela
         override val key: K = key
         override var value: V = value
-        var next: AEDHashMap.HashNode<K, V>? = null
-        var previous: AEDHashMap.HashNode<K, V>? = null
+        var next: HashNode<K, V>? = null
+        var previous: HashNode<K, V>? = null
 
         override fun setValue(newValue: V): V {
             value = newValue
             return value
         }
     }
-    // private var mutableSize = 0 // ????
     override var size: Int = 0 // COMO ATUALIZAR O VALOR DO TAMANNHO???
 
-    // private var mutableCapacity = capacity // ?????
     override var capacity: Int = capacity // COMO ATUALIZAR O VALOR DA CAPACIDADE???
 
-    private var hashTable = arrayOfNulls<AEDHashMap.HashNode<K, V>?>(capacity)
+    private var hashTable = arrayOfNulls<HashNode<K, V>?>(capacity)
 
-    private fun hash(e: K): Int {
+    private fun hash(e: K): Int { // Função de dispersão
         val idx = e.hashCode() % capacity
         return if (idx < 0) idx + capacity else idx
     }
@@ -47,16 +45,16 @@ class AEDHashMap<K,V>(capacity: Int = 16, private val loadFactor: Float = 0.75f)
 
         when {
             node == null -> {
-                hashTable[idx] = AEDHashMap.HashNode(key, value, null)
+                hashTable[idx] = HashNode(key, value, null)
                 size++
             }
 
             oldValue == null -> {
-                hashTable[idx] = AEDHashMap.HashNode(key, value, hashTable[idx])
+                hashTable[idx] = HashNode(key, value, hashTable[idx])
                 size++
             }
 
-            else -> { // ??????
+            else -> {
                 while (node?.key != key) {
                     node = node?.next
                 }
@@ -64,29 +62,28 @@ class AEDHashMap<K,V>(capacity: Int = 16, private val loadFactor: Float = 0.75f)
                 return oldValue
             } }
 
-        if (size * loadFactor >= capacity) {
-            capacity *= 2
-            val newTable = arrayOfNulls<AEDHashMap.HashNode<K, V>>(capacity)
+        if (size * loadFactor >= capacity) expand()
 
-            hashTable.forEach { // PODEMOS USAR ????? (CASO NÃO POSSAMOS, SUBSTITUIR POR UM LOOP FOR)
-                if(it != null) {
-                    newTable[hash(it.key)] = it
-                }
-            }
-
-            hashTable = newTable
-        }
         return oldValue
     }
 
     private fun expand() {
-        TODO()
-    }
+        capacity *= 2
+        val newTable = arrayOfNulls<HashNode<K, V>>(capacity)
 
+        hashTable.forEach { // PODEMOS USAR ????? (CASO NÃO POSSAMOS, SUBSTITUIR POR UM LOOP FOR)
+            if(it != null) {
+                newTable[hash(it.key)] = it
+            }
+        }
+
+        hashTable = newTable
+    }
+// --- ITERADOR ---
     private inner class MyIterator: Iterator<AEDMutableMap.MutableEntry<K, V>> {
         var currIdx = -1;
-        var currNode: AEDHashMap.HashNode<K, V>? = null
-        var list: AEDHashMap.HashNode<K, V>? = null
+        var currNode: HashNode<K, V>? = null
+        var list: HashNode<K, V>? = null
 
         override fun hasNext(): Boolean {
             if (currNode != null) return true
@@ -107,7 +104,7 @@ class AEDHashMap<K,V>(capacity: Int = 16, private val loadFactor: Float = 0.75f)
             if (!hasNext()) throw NoSuchElementException()
             val aux = currNode
             currNode = null
-            return aux!! //aux ?: Any() as MutableMap.MutableEntry<K, V>
+            return aux!!
         }
     }
 
