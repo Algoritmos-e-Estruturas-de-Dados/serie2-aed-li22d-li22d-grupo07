@@ -32,26 +32,6 @@ fun <T> intersection(list1: Node<T>, list2: Node<T>, cmp: Comparator<T>): Node<T
 
             val comparison = cmp.compare(nodeList1.value, nodeList2.value)
 
-            /*
-            if (comparison == 0) {
-                if (listHead == null) {
-                    listHead = Node(nodeList1.value, null, null)
-                    lastNode = listHead
-                }
-                else {
-                    lastNode = addToEnd(lastNode, nodeList1.value) // Adiciona à lista o nó duplicado
-                }
-
-                remove(list1, nodeList1.value, cmp) // Remove o nó de ambas as listas
-                remove(list2, nodeList2.value, cmp)
-            }
-
-            if (comparison < 0) {
-                nodeList1 = nodeList1.next
-            }
-            else nodeList2 = nodeList2.next
-        } */
-
             when {
                 comparison == 0 -> {
                     if (listHead == null) {
