@@ -4,20 +4,19 @@ import java.util.NoSuchElementException
 
 class AEDHashMap<K,V>(capacity: Int = 16, private val loadFactor: Float = 0.75f): AEDMutableMap<K, V> {
 
-    private class HashNode<K, V>(key:K, value: V, next: HashNode<K, V>? = null): AEDMutableMap.MutableEntry<K, V> { // Classe dos nós da tabela
-        override val key: K = key
-        override var value: V = value
-        var next: HashNode<K, V>? = null
-        var previous: HashNode<K, V>? = null
+    private class HashNode<K, V>(override val key:K, override var value: V, var next: HashNode<K, V>? = null): AEDMutableMap.MutableEntry<K, V> { // Classe dos nós da tabela
+        // override val key: K = key
+        // override var value: V = value
+        // var next: HashNode<K, V>? = next
 
         override fun setValue(newValue: V): V {
             value = newValue
             return value
         }
     }
-    override var size: Int = 0 // COMO ATUALIZAR O VALOR DO TAMANNHO???
+    override var size: Int = 0
 
-    override var capacity: Int = capacity // COMO ATUALIZAR O VALOR DA CAPACIDADE???
+    override var capacity: Int = capacity
 
     private var hashTable = arrayOfNulls<HashNode<K, V>?>(capacity)
 

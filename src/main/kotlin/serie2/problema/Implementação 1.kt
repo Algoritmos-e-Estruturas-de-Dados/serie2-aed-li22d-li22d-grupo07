@@ -6,7 +6,7 @@ object ProcessPointsCollection {
     // Quando value = 1, o ponto foi extraído do primeiro ficheiro.
     // Quando value = 2, o ponto foi extraído do segundo ficheiro.
     // O tipo "Point" como chave permite ter chaves iguais para pontos iguais e chaves diferentes para pontos diferentes.
-    private var hashMap = hashMapOf<Point, Int>() // Cria o hashMap
+    private var hashMap = HashMap<Point, Int>() // Cria o hashMap
     private var duplicatedPoints = listOf<Point>()
 
     fun load(file1: String, file2: String){
@@ -108,4 +108,9 @@ fun main() {
         }
     }
     println("Aplicação Terminada")
+
+//    ProcessPointsCollection.load("Test1.co", "Test2.co")
+//    ProcessPointsCollection.union("union.co")
+//    ProcessPointsCollection.difference("difference.co")
+//    ProcessPointsCollection.intersection("intersection.co")
 }
