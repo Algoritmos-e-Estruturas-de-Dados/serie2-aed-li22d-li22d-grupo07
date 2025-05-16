@@ -110,9 +110,4 @@ fun main() {
         }
     }
     println("Aplicação Terminada")
-
-//        ProcessPointsCollection2.load("Test1.co", "Test2.co")
-//        ProcessPointsCollection2.union("union.co")
-//        ProcessPointsCollection2.difference("difference.co")
-//        ProcessPointsCollection2.intersection("intersection.co")
 }
