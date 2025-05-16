@@ -34,7 +34,7 @@ class IntArrayList(val k: Int): Iterable<Int>{
             true
          }
     }
-// OQ Q É PRA FZR NESTA ???????
+// --- OPCIONAL
     override fun iterator(): Iterator<Int> {
         TODO("Not yet implemented")
     }

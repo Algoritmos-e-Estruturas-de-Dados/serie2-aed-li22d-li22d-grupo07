@@ -58,9 +58,10 @@ class AEDHashMap<K,V>(capacity: Int = 16, private val loadFactor: Float = 0.75f)
                 while (node?.key != key) {
                     node = node?.next
                 }
-                node?.value = value
+                node?.setValue(value) // Define o novo valor ao nó
                 return oldValue
-            } }
+            }
+        }
 
         if (size * loadFactor >= capacity) expand()
 
@@ -71,9 +72,9 @@ class AEDHashMap<K,V>(capacity: Int = 16, private val loadFactor: Float = 0.75f)
         capacity *= 2
         val newTable = arrayOfNulls<HashNode<K, V>>(capacity)
 
-        hashTable.forEach { // PODEMOS USAR ????? (CASO NÃO POSSAMOS, SUBSTITUIR POR UM LOOP FOR)
-            if(it != null) {
-                newTable[hash(it.key)] = it
+        for (element in hashTable) {
+            if(element != null) {
+                newTable[hash(element.key)] = element
             }
         }
 
