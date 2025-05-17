@@ -2,7 +2,7 @@ package serie2.part4
 
 import java.util.NoSuchElementException
 
-class AEDHashMap<K,V>(capacity: Int = 16, private val loadFactor: Float = 0.75f): AEDMutableMap<K, V> {
+class AEDHashMap<K,V>(capacity: Int = 13, private val loadFactor: Float = 0.75f): AEDMutableMap<K, V> {
 
     private class HashNode<K, V>(override val key:K, override var value: V, var next: HashNode<K, V>? = null): AEDMutableMap.MutableEntry<K, V> { // Classe dos nós da tabela
         // override val key: K = key
@@ -62,42 +62,41 @@ class AEDHashMap<K,V>(capacity: Int = 16, private val loadFactor: Float = 0.75f)
             }
         }
 
-        if (size * loadFactor >= capacity) expand()
+        if (size >= capacity * loadFactor) expand()
 
         return oldValue
     }
 
     private fun expand() {
+        val oldTable = hashTable
         capacity *= 2
-        val newTable = arrayOfNulls<HashNode<K, V>>(capacity)
-
-        for (element in hashTable) {
-            if(element != null) {
-                newTable[hash(element.key)] = element
+        hashTable = arrayOfNulls<HashNode<K, V>>(capacity)
+        size = 0
+        for (element in oldTable) {
+            if (element != null) {
+                put(element.key, element.value)
             }
         }
-
-        hashTable = newTable
     }
 // --- ITERADOR ---
     private inner class MyIterator: Iterator<AEDMutableMap.MutableEntry<K, V>> {
-        var currIdx = -1;
+        var currIdx = -1
         var currNode: HashNode<K, V>? = null
         var list: HashNode<K, V>? = null
 
         override fun hasNext(): Boolean {
             if (currNode != null) return true
             while (currIdx < capacity) {
-                if (list == null) {
+                if (list == null) { // Percorre os índices da tabela
                     currIdx++
                     if (currIdx < capacity) list = hashTable[currIdx]
-                } else {
+                } else { // Percorre os nós da lista ligada
                     currNode = list
                     list?.let { l -> list = l.next }
                     return true
                 }
             }
-            return false;
+            return false
         }
 
         override fun next(): AEDMutableMap.MutableEntry<K, V> {

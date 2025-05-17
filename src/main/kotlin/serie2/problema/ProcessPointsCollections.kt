@@ -7,7 +7,8 @@ object ProcessPointsCollection {
     // Quando value = 2, o ponto foi extraído do segundo ficheiro.
     // O tipo "Point" como chave permite ter chaves iguais para pontos iguais e chaves diferentes para pontos diferentes.
     private var hashMap = HashMap<Point, Int>() // Cria o hashMap
-    private var duplicatedPoints = listOf<Point>()
+    private var duplicatedPointsList = listOf<Point>()
+
 
     fun load(file1: String, file2: String){
         val reader1 = createReader(file1) // Abre os leitores dos ficheiros de entrada
@@ -28,7 +29,7 @@ object ProcessPointsCollection {
                 val y = x1.split(' ')[3].toFloat() // Extrai o valor de y
                 val oldValue = hashMap.put(Point(x,y), 1) // Coloca o par no mapa e retorna o último Ponto associado à chave x
 
-                if (oldValue == 2 && Point(x, y) !in duplicatedPoints) duplicatedPoints +=  Point(x, y)
+                if (oldValue == 2 && Point(x, y) !in duplicatedPointsList) duplicatedPointsList +=  Point(x, y)
 
                 x1 = reader1.readLine() // Lê a próxima linha
             }
@@ -37,8 +38,8 @@ object ProcessPointsCollection {
                 val y = x2.split(' ')[3].toFloat() // Extrai o valor de "value"
                 val oldValue = hashMap.put(Point(x,y), 2) // Coloca o par no mapa
 
-                if (oldValue == 1 && Point(x, y) !in duplicatedPoints) {
-                    duplicatedPoints += Point(x, y)
+                if (oldValue == 1 && Point(x, y) !in duplicatedPointsList) {
+                    duplicatedPointsList += Point(x, y)
                 }
                 x2 = reader2.readLine() // Lê a próxima linha
             }
@@ -49,18 +50,18 @@ object ProcessPointsCollection {
 
 
     fun union(file: String){
-        val exitFile = createWriter(file)
+        val exitFile = createWriter(file) // Cria o ficheiro de output
 
         for (element in hashMap) {
-            exitFile.println("${element.key.x} , ${element.key.y}")
+            exitFile.println("${element.key.x} , ${element.key.y}") // Escreve cada um dos pontos
         }
-        exitFile.close()
+        exitFile.close() // Fecha o ficheiro de output
     }
 
     fun intersection(file: String){
         val exitFile = createWriter(file)
 
-        for (point in duplicatedPoints) {
+        for (point in duplicatedPointsList) {
             exitFile.println("${point.x} , ${point.y}")
         }
         exitFile.close()
@@ -70,7 +71,7 @@ object ProcessPointsCollection {
         val exitFile = createWriter(file)
 
         for (element in hashMap) {
-            if (element.key !in duplicatedPoints)
+            if (element.key !in duplicatedPointsList)
                 exitFile.println("${element.key.x} , ${element.key.y}")
         }
         exitFile.close()
@@ -78,39 +79,40 @@ object ProcessPointsCollection {
 }
 
 fun main() {
-    var command = ""
-    while (command != "exit") {
-        println("""Write a command
->
-        """.trimMargin())
+//    var command = ""
+//    while (command != "exit") {
+//        // Imitação da linha de comandos
+//        println("""Write a command
+//>
+//        """.trimMargin())
+//
+//        val input = readln().split(' ')
+//
+//        command = input[0] // Separa-se a palavra chave do comando do restante para ser mais percetível
+//
+//        when (command) {
+//            "load" -> {
+//                if (input.size != 3) continue
+//                else ProcessPointsCollection.load(input[1], input[2])
+//            }
+//            "union" -> {
+//                if (input.size != 2) continue
+//                ProcessPointsCollection.union(input[1])
+//            }
+//            "intersection" -> {
+//                if (input.size != 2) continue
+//                ProcessPointsCollection.intersection(input[1])
+//            }
+//            "difference" -> {
+//                if (input.size != 2) continue
+//                ProcessPointsCollection.difference(input[1])
+//            }
+//        }
+//    }
+//    println("Aplicação Terminada")
 
-        val input = readln().split(' ')
-
-        command = input[0] // Separa-se a palavra chave do comando do restante para ser mais percetível
-
-        when (command) {
-            "load" -> {
-                if (input.size != 3) continue
-                else ProcessPointsCollection.load(input[1], input[2])
-            }
-            "union" -> {
-                if (input.size != 2) continue
-                ProcessPointsCollection.union(input[1])
-            }
-            "intersection" -> {
-                if (input.size != 2) continue
-                ProcessPointsCollection.intersection(input[1])
-            }
-            "difference" -> {
-                if (input.size != 2) continue
-                ProcessPointsCollection.difference(input[1])
-            }
-        }
-    }
-    println("Aplicação Terminada")
-
-//    ProcessPointsCollection.load("Test1.co", "Test2.co")
-//    ProcessPointsCollection.union("union.co")
-//    ProcessPointsCollection.difference("difference.co")
-//    ProcessPointsCollection.intersection("intersection.co")
+    ProcessPointsCollection.load("Test1.co", "Test2.co")
+    ProcessPointsCollection.union("union.co")
+    ProcessPointsCollection.difference("difference.co")
+    ProcessPointsCollection.intersection("intersection.co")
 }
