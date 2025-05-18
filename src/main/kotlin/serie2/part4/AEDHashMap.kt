@@ -67,14 +67,16 @@ class AEDHashMap<K,V>(capacity: Int = 13, private val loadFactor: Float = 0.75f)
         return oldValue
     }
 
-    private fun expand() {
+    private fun expand() { // USA O ITERADOR DOS ARRAYS, LOGO, É NECESSÁRIO VERIFICAR CADA UM DOS NÓS DAS LISTAS LIGADAS
         val oldTable = hashTable
         capacity *= 2
         hashTable = arrayOfNulls<HashNode<K, V>>(capacity)
-        size = 0
-        for (element in oldTable) {
-            if (element != null) {
+        size = 0 // Redefinido o tamanho da lista porque a função put incrementa-o cada vez que adiciona um elemento (O tamanho no fim é o mesmo)
+        for (point in oldTable) {
+            var element = point
+            while (element != null) { // Percorre os nós da lista ligada
                 put(element.key, element.value)
+                element = element.next
             }
         }
     }
