@@ -81,39 +81,34 @@ object ProcessPointsCollection2 {
 }
 
 fun main() {
-//    var command = ""
-//    while (command != "exit") {
-//        println("""Write a command
-//>
-//        """.trimMargin())
-//
-//        val input = readln().split(' ')
-//
-//        command = input[0] // Separa-se a palavra chave do comando do restante para ser mais percetível
-//
-//        when (command) {
-//            "load" -> {
-//                if (input.size != 3) continue
-//                else ProcessPointsCollection2.load(input[1], input[2])
-//            }
-//            "union" -> {
-//                if (input.size != 2) continue
-//                ProcessPointsCollection2.union(input[1])
-//            }
-//            "intersection" -> {
-//                if (input.size != 2) continue
-//                ProcessPointsCollection2.intersection(input[1])
-//            }
-//            "difference" -> {
-//                if (input.size != 2) continue
-//                ProcessPointsCollection2.difference(input[1])
-//            }
-//        }
-//    }
-//    println("Aplicação Terminada")
+    var command = ""
+    while (command != "exit") {
+        println("""Write a command
+>
+        """.trimMargin())
 
-    ProcessPointsCollection2.load("Test1.co", "Test2.co")
-    ProcessPointsCollection2.union("union.co")
-    ProcessPointsCollection2.difference("difference.co")
-    ProcessPointsCollection2.intersection("intersection.co")
+        val input = readln().split(' ')
+
+        command = input[0] // Separa-se a palavra chave do comando do restante para ser mais percetível
+
+        when (command) {
+            "load" -> {
+                if (input.size != 3) continue
+                else ProcessPointsCollection2.load(input[1], input[2])
+            }
+            "union" -> {
+                if (input.size != 2) continue
+                ProcessPointsCollection2.union(input[1])
+            }
+            "intersection" -> {
+                if (input.size != 2) continue
+                ProcessPointsCollection2.intersection(input[1])
+            }
+            "difference" -> {
+                if (input.size != 2) continue
+                ProcessPointsCollection2.difference(input[1])
+            }
+        }
+    }
+    println("Aplicação Terminada")
 }
