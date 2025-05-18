@@ -81,7 +81,6 @@ object ProcessPointsCollection {
 fun main() {
     var command = ""
     while (command != "exit") {
-        // Imitação da linha de comandos
         println("""Write a command
 >
         """.trimMargin())
@@ -90,22 +89,22 @@ fun main() {
 
         command = input[0] // Separa-se a palavra chave do comando do restante para ser mais percetível
 
-        when (command) {
-            "load" -> {
+        when (command.uppercase()) {
+            "LOAD" -> {
                 if (input.size != 3) continue
-                else ProcessPointsCollection.load(input[1], input[2])
+                else ProcessPointsCollection2.load(input[1], input[2])
             }
-            "union" -> {
+            "UNION" -> {
                 if (input.size != 2) continue
-                ProcessPointsCollection.union(input[1])
+                ProcessPointsCollection2.union(input[1])
             }
-            "intersection" -> {
+            "INTERSECTION" -> {
                 if (input.size != 2) continue
-                ProcessPointsCollection.intersection(input[1])
+                ProcessPointsCollection2.intersection(input[1])
             }
-            "difference" -> {
+            "DIFFERENCE" -> {
                 if (input.size != 2) continue
-                ProcessPointsCollection.difference(input[1])
+                ProcessPointsCollection2.difference(input[1])
             }
         }
     }

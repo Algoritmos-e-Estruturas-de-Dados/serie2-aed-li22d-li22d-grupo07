@@ -91,20 +91,20 @@ fun main() {
 
         command = input[0] // Separa-se a palavra chave do comando do restante para ser mais percetível
 
-        when (command) {
-            "load" -> {
+        when (command.uppercase()) {
+            "LOAD" -> {
                 if (input.size != 3) continue
                 else ProcessPointsCollection2.load(input[1], input[2])
             }
-            "union" -> {
+            "UNION" -> {
                 if (input.size != 2) continue
                 ProcessPointsCollection2.union(input[1])
             }
-            "intersection" -> {
+            "INTERSECTION" -> {
                 if (input.size != 2) continue
                 ProcessPointsCollection2.intersection(input[1])
             }
-            "difference" -> {
+            "DIFFERENCE" -> {
                 if (input.size != 2) continue
                 ProcessPointsCollection2.difference(input[1])
             }
