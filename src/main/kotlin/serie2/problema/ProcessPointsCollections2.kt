@@ -95,20 +95,24 @@ fun main() {
             "LOAD" -> {
                 if (input.size != 3) continue
                 else ProcessPointsCollection2.load(input[1], input[2])
+                println("Ficheiros carregados!")
             }
             "UNION" -> {
                 if (input.size != 2) continue
                 ProcessPointsCollection2.union(input[1])
+                println("Operação Concluída!")
             }
             "INTERSECTION" -> {
                 if (input.size != 2) continue
                 ProcessPointsCollection2.intersection(input[1])
+                println("Operação Concluída!")
             }
             "DIFFERENCE" -> {
                 if (input.size != 2) continue
                 ProcessPointsCollection2.difference(input[1])
+                println("Operação Concluída!")
             }
         }
     }
-    println("Aplicação Terminada")
+    println("Aplicação Terminada!")
 }
