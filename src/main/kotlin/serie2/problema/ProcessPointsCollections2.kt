@@ -73,7 +73,7 @@ object ProcessPointsCollection2 {
         val exitFile = createWriter(file)
 
         for (point in hashMap) {
-            if (point.value[0] xor point.value[1])
+            if (point.value[0] && !point.value[1])
                 exitFile.println("${point.key.x} , ${point.key.y}")
         }
         exitFile.close()
